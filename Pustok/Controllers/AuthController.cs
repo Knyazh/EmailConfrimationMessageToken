@@ -130,12 +130,15 @@ public class AuthController : Controller
     [HttpGet]
     public IActionResult ConfirmEmail([FromQuery] int id, [FromQuery] string confirmToken)
     {
-
         User user = _dbContext.Users.Single(u => u.Id == id && u.ConfirmToken == confirmToken);
-        DateTime date = DateTime.Now;
+
         if (user is not null)
         {
-            if (date.Hour - user.CreatedAt.Hour >= 2)
+            DateTime tokenCreateTime = user.CreatedAt;
+            DateTime currentTime = DateTime.Now;
+            TimeSpan timeSpan = currentTime - tokenCreateTime;
+
+            if (timeSpan.TotalHours >= 2) 
             {
                 user.ConfirmToken = null;
                 user.IsEmailConfirmed = true;
@@ -143,12 +146,13 @@ public class AuthController : Controller
             }
             else
             {
-                throw new Exception("time is up");
+                throw new Exception("Token's time is up");
             }
         }
 
         return RedirectToAction("Index", "Home");
     }
+
 
     #region Logout
 
