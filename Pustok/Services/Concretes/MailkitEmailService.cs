@@ -96,8 +96,9 @@ namespace Pustok.Services.Concretes
             var messageDto = new MessageDto()
             {
                 Subject = "Confirmation Email",
-                Content = $"Hi {to},<br><br>There was a request to confirm your account!<br>If you did not make this request then please ignore this email.<br>Otherwise, please click this link to confirm your acc: " + "<a href='" + _configuration["Server"] + "Auth/ConfirmEmail"  + $"?id={id}" + $"&ConfirmToken={token}" + "'>Confirm Email</a>",
-                Receipents = new List<string> { to }
+                Content = $"Hi {to},There was a request to confirm your account! If you did not make this request then please ignore this email.Otherwise, please click this link to confirm your acc: " +
+              $" href='{_configuration["Server"]}/Auth/ConfirmEmail?id={id}&ConfirmToken={token}'>Confirm Email",
+                Receipents = new List<string> { to },
             };
 
             SendEmail(messageDto);

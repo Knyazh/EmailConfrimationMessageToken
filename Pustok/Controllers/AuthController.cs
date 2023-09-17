@@ -31,7 +31,7 @@ public class AuthController : Controller
     #region Login
 
     [HttpGet]
-    public async Task<IActionResult> Login()
+     public async  Task<IActionResult> Login()
     {
         if (_userService.IsCurrentUserAuthenticated())
         {
